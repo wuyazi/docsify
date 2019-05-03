@@ -58,6 +58,7 @@ export function genIndex(path, content = '', router, depth) {
 
   tokens.forEach(token => {
     if (token.type === 'heading' && token.depth <= depth) {
+      token.text = token.text.replace(/\[(.+)\]\(.+?\)/,"$1")
       slug = router.toURL(path, {id: slugify(token.text)})
       index[slug] = {slug, title: token.text, body: ''}
     } else {
