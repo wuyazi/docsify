@@ -57,10 +57,9 @@ export function genIndex(path, content = '', router, depth) {
   let slug
 
   tokens.forEach(token => {
-    var tokenText = token.text.replace(/\[(.+)\]\(.+?\)/,"$1")
     if (token.type === 'heading' && token.depth <= depth) {
-      slug = router.toURL(path, {id: slugify(tokenText)})
-      index[slug] = {slug, title: tokenText, body: ''}
+      slug = router.toURL(path, {id: slugify(token.text.replace(/\[(.+)\]\(.+?\)/,"$1"))})
+      index[slug] = {slug, title: token.text.replace(/\[(.+)\]\(.+?\)/,"$1"), body: ''}
     } else {
       if (!slug) {
         return
@@ -68,9 +67,9 @@ export function genIndex(path, content = '', router, depth) {
       if (!index[slug]) {
         index[slug] = {slug, title: '', body: ''}
       } else if (index[slug].body) {
-        index[slug].body += '\n' + (tokenText || '')
+        index[slug].body += '\n' + (token.text.replace(/\[(.+)\]\(.+?\)/,"$1") || '')
       } else {
-        index[slug].body = tokenText
+        index[slug].body = token.text.replace(/\[(.+)\]\(.+?\)/,"$1")
       }
     }
   })
