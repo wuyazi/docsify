@@ -105,7 +105,7 @@ function search(query) {
     var postContent = post.body && post.body.trim();
     var postUrl = post.slug || '';
 
-    if (postTitle && postContent) {
+    if (postTitle) {
       keywords.forEach(function (keyword) {
         // From https://github.com/sindresorhus/escape-string-regexp
         var regEx = new RegExp(
@@ -118,7 +118,7 @@ function search(query) {
         indexTitle = postTitle && postTitle.search(regEx);
         indexContent = postContent && postContent.search(regEx);
 
-        if (indexTitle < 0 && indexContent < 0) {
+        if (indexTitle < 0 && (indexContent < 0 || indexContent == '')) {
           isMatch = false;
         } else {
           isMatch = true;
